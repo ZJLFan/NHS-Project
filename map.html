@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ozarks Interactive Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" />
+    <style>
+        body {
+            font-family: Georgia, 'Times New Roman', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #e8f5e9;
+            color: black;
+        }
+
+        header {
+            background-color: rgba(76, 175, 80, 0.8);
+            color: black;
+            text-align: center;
+            padding: 5px 20px;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 0;
+        }
+
+        header p {
+            max-width: 800px;
+            margin: 10px auto 0;
+            font-size: 1em;
+        }
+
+        nav {
+            background-color: rgba(46, 139, 87, 0.8);
+            display: flex;
+            justify-content: center;
+        }
+
+        nav a {
+            display: block;
+            color: black;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+            border-right: 1px solid black;
+        }
+
+        nav a:first-child {
+            border-left: 1px solid black;
+        }
+
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .map-container {
+            position: relative;
+            width: 100%;
+            height: 600px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        #map {
+            width: 100%;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .info-box {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-left: 5px solid #4caf50;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .info-box h3 {
+            color: #2d8b57;
+            margin-top: 0;
+            font-size: 1.5em;
+        }
+
+        .info-box h4 {
+            color: #4caf50;
+            margin-top: 15px;
+            margin-bottom: 8px;
+        }
+
+        .info-box ul {
+            margin: 0;
+            padding-left: 20px;
+            line-height: 1.6;
+        }
+
+        .info-box li {
+            margin-bottom: 5px;
+        }
+
+        .map-instructions {
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-left: 5px solid #2196F3;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .map-instructions p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .popup-content {
+            max-width: 300px;
+        }
+
+        .popup-content h4 {
+            color: #2d8b57;
+            margin-top: 0;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+        }
+
+        .popup-content ul {
+            margin: 8px 0;
+            padding-left: 18px;
+            font-size: 0.9em;
+        }
+
+        .popup-content li {
+            margin-bottom: 3px;
+        }
+
+        /* Leaflet popup customization */
+        .leaflet-popup-content {
+            font-family: Georgia, 'Times New Roman', serif;
+        }
+
+        .legend-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .legend-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2d8b57;
+            border-bottom: 2px solid #4caf50;
+            padding-bottom: 5px;
+        }
+
+        .legend-item {
+            display: block;
+            margin: 5px 0;
+            font-size: 0.9em;
+        }
+
+        .legend-color {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            background-color: #ccc;
+            border: 1px solid #333;
+            margin-right: 8px;
+            border-radius: 2px;
+            vertical-align: middle;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .map-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ozarks Wildlife Awareness</h1>
+        <p>Interactive Map of the Ozarks Region</p>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="map.html">Map</a>
+        <a href="plants.html">Plants</a>
+        <a href="animals.html">Animals</a>
+    </nav>
+    <main>
+        <div class="map-instructions">
+            <p><strong>Instructions:</strong> Use your mouse to scroll and pan around the map. Click the zoom buttons or scroll your wheel to zoom in and out. Click on any colored region to see the most common plants and animals found in that area of the Ozarks.</p>
+        </div>
+
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script>
+        // Initialize map centered on Ozarks region
+        const map = L.map('map').setView([36.0, -92.8], 7);
+
+        // Add tile layer
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 13,
+            minZoom: 5
+        }).addTo(map);
+
+        // Define Ozarks border
+        const ozarksBorder = [[38.0, -91.0], [38.2, -91.5], [38.1, -92.0], [38.0, -93.0], [37.8, -94.5], [36.5, -94.8], [35.0, -94.3], [34.4, -93.5], [34.5, -92.0], [34.6, -91.0], [35.5, -90.8], [36.5, -90.9], [37.0, -91.0], [37.5, -91.2], [38.0, -91.0]];
+        
+        const ozarksBorderPolygon = L.polyline(ozarksBorder, {
+            color: '#2d8b57',
+            weight: 3,
+            opacity: 0.8,
+            dashArray: '5, 5',
+            fill: false
+        }).addTo(map);
+
+        // Define regions with their boundaries and information
+        // Based on real Ozark locations with accurate geographic boundaries
+        const ozarkRegions = [
+            {
+                name: 'Springfield Plateau Prairies',
+                coords: [[37.50, -93.85], [37.55, -93.10], [37.10, -92.95], [37.00, -93.65], [37.35, -93.92]],
+                plants: ['Black-eyed Susan', 'Purple Coneflower', 'Eastern Redcedar', 'White Oak', 'Fragrant Sumac'],
+                animals: ['White-tailed Deer', 'Eastern Bluebird', 'Bobcat', 'Coyote', 'Golden Eagle']
+            },
+            {
+                name: 'Mark Twain National Forest',
+                coords: [[37.90, -91.40], [37.95, -90.90], [37.55, -90.60], [37.30, -90.85], [37.40, -91.35], [37.70, -91.45]],
+                plants: ['Black-eyed Susan', 'Purple Coneflower', 'White Oak', 'Sugar Maple', 'Cinnamon Fern'],
+                animals: ['White-tailed Deer', 'Eastern Bluebird', 'Bobcat', 'Pileated Woodpecker', 'Coyote']
+            },
+            {
+                name: 'Ha Ha Tonka State Park',
+                coords: [[38.10, -92.55], [38.12, -92.25], [37.85, -92.05], [37.70, -92.40], [37.90, -92.60]],
+                plants: ['White Oak', 'Sugar Maple', 'Eastern Redcedar', 'Red Trillium', 'Cinnamon Fern'],
+                animals: ['Bald Eagle', 'Osprey', 'White-tailed Deer', 'Pileated Woodpecker', 'Great Blue Heron']
+            },
+            {
+                name: 'Eureka Springs Area',
+                coords: [[36.38, -94.35], [36.44, -94.25], [36.42, -94.08], [36.32, -94.12], [36.30, -94.30]],
+                plants: ['Eastern Redcedar', 'Sugar Maple', 'Cinnamon Fern', 'Red Trillium', 'Ozark Rhododendron'],
+                animals: ['Pileated Woodpecker', 'White-tailed Deer', 'Eastern Bluebird', 'Bald Eagle', 'Osprey']
+            },
+            {
+                name: 'Roaring River State Park',
+                coords: [[36.55, -93.92], [36.62, -93.85], [36.58, -93.78], [36.50, -93.88]],
+                plants: ['White Oak', 'Sugar Maple', 'Eastern Redcedar', 'Partridge Berry', 'Cinnamon Fern'],
+                animals: ['Osprey', 'Bald Eagle', 'Rainbow Trout', 'Muskrat', 'Mink']
+            },
+            {
+                name: 'Branson / Table Rock Lake',
+                coords: [[36.70, -93.25], [36.75, -93.05], [36.55, -92.95], [36.50, -93.15], [36.58, -93.28]],
+                plants: ['Black-eyed Susan', 'Purple Coneflower', 'White Oak', 'Eastern Redcedar', 'Fragrant Sumac'],
+                animals: ['Osprey', 'Great Blue Heron', 'Largemouth Bass', 'White-tailed Deer', 'Bald Eagle']
+            },
+            {
+                name: 'Buffalo National River',
+                coords: [[36.30, -93.65], [36.35, -93.50], [36.20, -93.40], [36.10, -93.45], [36.05, -93.65], [36.22, -93.75]],
+                plants: ['Ozark Rhododendron', 'Spicebush', 'Pawpaw', 'Red Trillium', 'Sugar Maple'],
+                animals: ['River Otter', 'Great Blue Heron', 'Bobcat', 'Wood Duck', 'Black Bear']
+            },
+            {
+                name: 'Current River Valley',
+                coords: [[37.10, -92.20], [37.15, -91.45], [36.88, -91.30], [36.75, -91.80], [36.92, -92.15]],
+                plants: ['Eastern Redcedar', 'White Oak', 'Cinnamon Fern', 'Partridge Berry', 'Ozark Sundrops'],
+                animals: ['River Otter', 'Great Blue Heron', 'Snapping Turtle', 'Osprey', 'Spotted Gar']
+            },
+            {
+                name: 'Jacks Fork River',
+                coords: [[37.20, -91.45], [37.23, -90.95], [37.00, -90.85], [36.97, -91.38]],
+                plants: ['White Oak', 'Sugar Maple', 'Spicebush', 'Red Trillium', 'Cinnamon Fern'],
+                animals: ['River Otter', 'Osprey', 'Great Blue Heron', 'Mink', 'Largemouth Bass']
+            },
+            {
+                name: 'Devil\'s Promenade / Eureka Cave',
+                coords: [[37.70, -92.50], [37.78, -92.15], [37.50, -91.90], [37.40, -92.30], [37.55, -92.65]],
+                plants: ['Eastern Redcedar', 'White Oak', 'Fragrant Sumac', 'Missouri Ironweed', 'Ozark Sundrops'],
+                animals: ['Collared Lizard', 'Missouri Kingsnake', 'Cedar Waxwing', 'Blanding\'s Turtle', 'Bat Species']
+            },
+            {
+                name: 'White River',
+                coords: [[36.60, -92.85], [36.70, -92.25], [36.40, -92.00], [36.20, -92.60], [36.38, -92.92]],
+                plants: ['Bald Cypress', 'Cinnamon Fern', 'Partridge Berry', 'Spicebush', 'Pawpaw'],
+                animals: ['Great Blue Heron', 'Beaver', 'Muskrat', 'Osprey', 'Spotted Gar']
+            },
+            {
+                name: 'Boston Mountains',
+                coords: [[36.40, -94.20], [36.50, -93.55], [36.15, -93.35], [35.95, -93.75], [36.10, -94.15]],
+                plants: ['Sugar Maple', 'Ozark Rhododendron', 'Red Trillium', 'Cinnamon Fern', 'Pawpaw'],
+                animals: ['Black Bear', 'Wild Turkey', 'Pileated Woodpecker', 'Eastern Newt', 'River Otter']
+            },
+            {
+                name: 'Ouachita Mountains',
+                coords: [[35.50, -93.85], [35.55, -93.05], [35.05, -92.85], [34.80, -93.35], [34.95, -93.92]],
+                plants: ['Loblolly Pine', 'Flowering Dogwood', 'Mountain Laurel', 'Sourwood', 'Pawpaw'],
+                animals: ['Red Fox', 'Ruffed Grouse', 'Eastern Box Turtle', 'Great Horned Owl', 'Black Bear']
+            }
+        ];
+
+        // Color palette for regions - expanded for 12 regions
+        const colors = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#FFA07A', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E2', '#F8B88B', '#A3E4CB', '#FF9F9F', '#95E1D3'];
+
+        // Create polygons for each region
+        ozarkRegions.forEach((region, index) => {
+            const polygon = L.polygon(region.coords, {
+                color: colors[index],
+                fillColor: colors[index],
+                fillOpacity: 0.6,
+                weight: 2,
+                opacity: 0.8
+            }).addTo(map);
+
+            // Create popup content
+            const popupContent = `
+                <div class="popup-content">
+                    <h4>${region.name}</h4>
+                    <h5 style="margin: 10px 0 5px 0; color: #2d8b57;">Common Plants:</h5>
+                    <ul>
+                        ${region.plants.map(plant => `<li>${plant}</li>`).join('')}
+                    </ul>
+                    <h5 style="margin: 10px 0 5px 0; color: #2d8b57;">Common Animals:</h5>
+                    <ul>
+                        ${region.animals.map(animal => `<li>${animal}</li>`).join('')}
+                    </ul>
+                </div>
+            `;
+
+            // Bind popup to polygon
+            polygon.bindPopup(popupContent);
+
+            // Highlight on hover and bring to front
+            polygon.on('mouseover', function() {
+                this.setStyle({
+                    fillOpacity: 0.9,
+                    weight: 3
+                });
+                this.bringToFront();
+            });
+
+            polygon.on('mouseout', function() {
+                this.setStyle({
+                    fillOpacity: 0.6,
+                    weight: 2
+                });
+            });
+        });
+
+        // Add legend
+        const legend = L.control({ position: 'bottomright' });
+
+        legend.onAdd = function(map) {
+            const div = L.DomUtil.create('div', 'info');
+            div.style.backgroundColor = 'white';
+            div.style.padding = '10px';
+            div.style.borderRadius = '5px';
+            div.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
+            div.style.minWidth = '200px';
+            
+            let html = '<div class="legend-title">Ozark Regions</div><div class="legend-container">';
+            html += ozarkRegions.map((region, i) => 
+                `<span class="legend-item">` +
+                `<span class="legend-color" style="background-color: ${colors[i]};"></span>` +
+                `${region.name}</span>`
+            ).join('');
+            html += '</div>';
+            
+            div.innerHTML = html;
+            return div;
+        };
+
+        legend.addTo(map);
+    </script>
+</body>
+</html>

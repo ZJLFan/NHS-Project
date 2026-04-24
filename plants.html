@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ozarks Plants</title>
+    <style>
+        body { font-family: Georgia, 'Times New Roman', serif; margin: 0; padding: 0; background-color: #e8f5e9; color: black; min-height: 100vh; }
+        header { background-color: rgba(76, 175, 80, 0.8); color: black; text-align: center; padding: 5px 20px; }
+        h1 { font-size: 3em; margin: 0; }
+        header p { max-width: 800px; margin: 10px auto 0; font-size: 1em; }
+        nav { background-color: rgba(46, 139, 87, 0.8); display: flex; justify-content: center; }
+        nav a { display: block; color: black; text-align: center; padding: 14px 16px; text-decoration: none; border-right: 1px solid black; }
+        nav a:first-child { border-left: 1px solid black; }
+        nav a:hover { background-color: #ddd; color: black; }
+        main { padding: 20px; padding-top: 0; text-align: left; color: black; }
+        .plants-container { max-width: 1400px; margin: 30px auto 0; display: grid; grid-template-columns: 1fr 1fr; gap: 120px; }
+        .plant-card { position: relative; background-color: rgba(255, 255, 255, 0.95); padding: 20px; padding-left: 200px; border-left: 5px solid #4caf50; border-radius: 5px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); min-height: 230px; display: flex; flex-direction: column; justify-content: center; }
+        .plant-card h3 { color: #2d8b57; margin-top: 0; font-size: 1.5em; }
+        .plant-image { position: absolute; left: -60px; top: 50%; transform: translateY(-50%); width: 220px; height: 220px; background-color: #f0f0f0; border: 2px dashed #ccc; border-radius: 5px; display: flex; align-items: center; justify-content: center; color: #999; z-index: 1; }
+        .plant-image img { width: 100%; height: 100%; object-fit: cover; border-radius: 3px; }
+        .plant-info { display: block; margin-top: 15px; }
+        .plant-info div { padding: 5px 0; }
+        .location-label { font-weight: bold; color: #4caf50; }
+        .description { line-height: 1.6; }
+        .category-buttons { text-align: center; margin: 30px 0; }
+        .category-btn { background-color: #4caf50; color: white; border: none; padding: 12px 24px; margin: 0 10px; font-size: 1em; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background-color 0.3s; }
+        .category-btn:hover { background-color: #45a049; }
+        .category-btn.active { background-color: #2d8b57; }
+        .plant-card { display: none; }
+        .plant-card.show { display: flex; }
+        @media (max-width: 768px) {
+            .plants-container { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Ozarks Wildlife Awareness</h1>
+        <p>Common Plants of the Ozarks</p>
+    </header>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="map.html">Map</a>
+        <a href="plants.html">Plants</a>
+        <a href="animals.html">Animals</a>
+    </nav>
+    <main>
+        <div class="category-buttons">
+            <button class="category-btn active" data-category="wildflowers">Wildflowers</button>
+            <button class="category-btn" data-category="trees">Trees</button>
+            <button class="category-btn" data-category="shrubs">Shrubs</button>
+            <button class="category-btn" data-category="ferns">Ferns & Groundcover</button>
+        </div>
+        <div class="plants-container">
+            
+            <div class="plant-card show" data-category="wildflowers">
+                <div class="plant-image">
+                    <img src="Images/black-eyed-susan.jpg" alt="Black-eyed Susan">
+                </div>
+                <h3>Black-eyed Susan</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Black-eyed Susans are vibrant wildflowers with bright golden-yellow petals and dark brown centers. These cheerful flowers bloom from summer through fall and attract butterflies and bees. They are extremely hardy and require minimal water, making them popular in native gardens. The flowers can reach up to 3 feet tall and brighten any landscape with their sunny appearance.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Prairies and Meadows
+                        <p style="font-weight: normal; margin-top: 10px;">Found throughout the Ozarks in open prairies, meadows, and along roadsides. They thrive in sunny areas with well-drained soil and are especially common in the Springfield Plateau region.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="wildflowers">
+                <div class="plant-image">
+                    <img src="Images/purple-coneflower.jpg" alt="Purple Coneflower">
+                </div>
+                <h3>Purple Coneflower</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Purple coneflowers (Echinacea) are native wildflowers with distinctive purple-pink petals and prominent orange-brown cone-shaped centers. These flowers bloom from mid-summer through early fall and are known for their medicinal properties. They are extremely attractive to butterflies, bees, and other pollinators. The entire plant can be used for herbal preparations.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Dry Prairie and Forest Edges
+                        <p style="font-weight: normal; margin-top: 10px;">Found throughout the Ozarks in prairies, dry meadows, and open woodland areas. They prefer full sun and well-drained soil, particularly common in the Boston Mountains region.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="wildflowers">
+                <div class="plant-image">
+                    <img src="Images/ozark-sundrops.jpg" alt="Ozark Sundrops">
+                </div>
+                <h3>Ozark Sundrops</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Ozark sundrops are endemic wildflowers found only in the Ozarks region. These delicate flowers have pale yellow petals and bloom in late spring to early summer. They are adapted to the unique limestone glade habitat and sandy soils of the Ozarks. Their presence indicates the ecological uniqueness and biodiversity of the Ozark ecosystem.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Ozark Glades and Limestone Areas
+                        <p style="font-weight: normal; margin-top: 10px;">Found exclusively in specialized glade habitats throughout the Ozarks. These areas are typically on hilltops with thin, rocky soils and sparse vegetation, particularly in Missouri and Arkansas.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="wildflowers">
+                <div class="plant-image">
+                    <img src="Images/trillium.jpg" alt="Red Trillium">
+                </div>
+                <h3>Red Trillium</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Red trilliums are shade-loving wildflowers with three deep red petals and three green sepals. These delicate flowers bloom in early spring in moist, shaded woodlands. The entire plant has a distinctive triangular shape with three leaves, three petals, and three sepals. They are an indicator of healthy, undisturbed forest ecosystems.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Rich Bottomland Forests
+                        <p style="font-weight: normal; margin-top: 10px;">Found in moist, shaded deciduous forests throughout the Ozarks, particularly in river bottomlands and protected coves. They prefer rich, organic soils and bloom early in the spring before tree canopy closes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="trees">
+                <div class="plant-image">
+                    <img src="Images/white-oak.jpg" alt="White Oak">
+                </div>
+                <h3>White Oak</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>White oaks are majestic hardwood trees that can live for hundreds of years and reach heights of 50-80 feet. These trees have distinctive rounded leaf lobes and produce abundant acorns that are important food sources for wildlife. White oak wood is valuable for lumber and firewood. Their deep root systems help prevent erosion and they provide excellent habitat for countless species.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Mixed Hardwood Forests
+                        <p style="font-weight: normal; margin-top: 10px;">Found throughout the Ozarks in mixed oak-hickory forests and on hillsides. They thrive in well-drained soils and are a dominant species in the Ozark forest ecosystem.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="trees">
+                <div class="plant-image">
+                    <img src="Images/sugar-maple.jpg" alt="Sugar Maple">
+                </div>
+                <h3>Sugar Maple</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Sugar maples are valuable hardwood trees known for producing maple syrup and displaying brilliant fall foliage. These trees can reach heights of 60-75 feet and live for 200+ years. In autumn, their leaves turn spectacular shades of red, orange, and yellow. Sugar maples support numerous insects and animals, and their sap has been harvested by humans for centuries.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Northern Ozark Coves
+                        <p style="font-weight: normal; margin-top: 10px;">Found primarily in the northern Ozarks in cool, moist coves and north-facing slopes. They prefer rich soils and are particularly abundant in the upper elevation areas of the Boston Mountains.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="trees">
+                <div class="plant-image">
+                    <img src="Images/eastern-redcedar.jpg" alt="Eastern Redcedar">
+                </div>
+                <h3>Eastern Redcedar</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Eastern redcedars (actually a type of juniper) are evergreen trees with fragrant wood and distinctive blue-gray berries. These resilient trees can grow in poor soils and harsh conditions, making them pioneers in disturbed areas. The wood is used for closets and chests due to its aromatic properties. Redcedars provide year-round habitat and food for wildlife.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Glades and Rocky Hillsides
+                        <p style="font-weight: normal; margin-top: 10px;">Found throughout the Ozarks on rocky hillsides, glades, and limestone areas. They are particularly common on south-facing slopes and in areas with limestone soils.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="shrubs">
+                <div class="plant-image">
+                    <img src="Images/ozark-rhododendron.jpg" alt="Ozark Rhododendron">
+                </div>
+                <h3>Ozark Rhododendron</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Ozark rhododendrons are native shrubs that create spectacular displays of pink-purple flowers in spring. These evergreen plants can form dense thickets in rocky woodland areas. They typically grow 4-6 feet tall and bloom in April and May. Ozark rhododendrons are endemic to the Ozarks and are an important indicator of native Ozark forest communities.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Rocky Woodlands and Stream Banks
+                        <p style="font-weight: normal; margin-top: 10px;">Found throughout the Ozarks in rocky, acidic soils on hillsides and near streams. They are particularly abundant in protected coves and along river valleys in northern Arkansas and southern Missouri.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="ferns">
+                <div class="plant-image">
+                    <img src="Images/cinnamon-fern.jpg" alt="Cinnamon Fern">
+                </div>
+                <h3>Cinnamon Fern</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Cinnamon ferns are deciduous ferns with distinctive cinnamon-colored fertile fronds that stand upright among the sterile green fronds. These ferns can grow quite large, reaching 3-5 feet in height. They prefer moist to wet habitats and form substantial colonies in suitable areas. Cinnamon ferns are fascinating examples of ancient plant reproduction through spores.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Swamps and Wet Forests
+                        <p style="font-weight: normal; margin-top: 10px;">Found in moist to wet areas throughout the Ozarks including swamps, seep areas, and wet bottomland forests. They require high moisture levels and acidic soils.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="ferns">
+                <div class="plant-image">
+                    <img src="Images/christmas-fern.jpg" alt="Christmas Fern">
+                </div>
+                <h3>Christmas Fern</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Christmas ferns are evergreen ferns that remain green throughout the winter, making them distinctive in the forest landscape. These hardy ferns grow 12-24 inches tall and have dark green, leathery fronds. They are commonly used in holiday decorations, though sustainable harvesting practices are important. Christmas ferns are resilient and thrive in rocky woodland areas with shade.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Dry Rocky Woodlands
+                        <p style="font-weight: normal; margin-top: 10px;">Found throughout the Ozarks on rocky hillsides and woodlands with dappled shade. They prefer well-drained soil with plenty of organic matter and are especially common on north-facing slopes.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="ferns">
+                <div class="plant-image">
+                    <img src="Images/partridge-berry.jpg" alt="Partridge Berry">
+                </div>
+                <h3>Partridge Berry</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Partridge berry is a low-growing groundcover with small, paired leaves and delicate white flowers in summer. In fall, it produces bright red berries that persist through winter and are an important food source for wildlife. This evergreen groundcover typically grows only 2-4 inches tall but can spread across the forest floor. Partridge berries are sacred in some Native American traditions.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Acidic Forest Floors
+                        <p style="font-weight: normal; margin-top: 10px;">Found in moist, shaded woodlands throughout the Ozarks, particularly in areas with acidic, well-drained soils rich in organic matter. Common in the understory of oak and hickory forests.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="shrubs">
+                <div class="plant-image">
+                    <img src="Images/fragrant-sumac.jpg" alt="Fragrant Sumac">
+                </div>
+                <h3>Fragrant Sumac</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Fragrant sumac is a low-growing shrub, typically 2-4 feet tall, with aromatic leaves that emit a pleasant lemon scent when brushed. This native shrub produces small yellow flowers in spring and red berries in fall that attract birds and wildlife. Despite its similarity to poison ivy, fragrant sumac is harmless. The berries persist through winter and are an important food source for wildlife.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Dry Glades and Rocky Areas
+                        <p style="font-weight: normal; margin-top: 10px;">Found throughout the Ozarks on rocky hillsides, glades, and dry areas with limestone soils. Common on south-facing slopes and disturbed areas where it helps stabilize soil.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="shrubs">
+                <div class="plant-image">
+                    <img src="Images/pawpaw.jpg" alt="Pawpaw">
+                </div>
+                <h3>Pawpaw</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Pawpaw is a native understory shrub known for producing tropical-tasting fruits that are among the largest fruits native to North America. The green fruits ripen to yellow in fall and have a custard-like flavor. Pawpaw leaves are large and distinctive, and the plant grows 15-30 feet tall in suitable conditions. Pawpaw fruit attracts bears, raccoons, and other wildlife.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Rich Bottomland Forests
+                        <p style="font-weight: normal; margin-top: 10px;">Found in moist, shaded areas along streams and river bottomlands throughout the Ozarks. They prefer rich soils and dappled shade in protected coves and sheltered valleys.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="plant-card show" data-category="shrubs">
+                <div class="plant-image">
+                    <img src="Images/spicebush.jpg" alt="Spicebush">
+                </div>
+                <h3>Spicebush</h3>
+                <div class="plant-info">
+                    <div class="description">
+                        <p>Spicebush is a fragrant deciduous shrub with aromatic leaves, stems, and berries that smell like lemon when crushed. This native shrub grows 6-12 feet tall and produces small clusters of yellow flowers in early spring before leaves emerge. The red berries ripen in fall and are a favored food of spicebush swallowtail caterpillars. All parts of the plant are edible and have been used traditionally in teas and seasonings.</p>
+                    </div>
+                    <div class="location-label">
+                        Location: Moist Woodlands and Stream Banks
+                        <p style="font-weight: normal; margin-top: 10px;">Found in moist, shaded habitats throughout the Ozarks, particularly near streams, springs, and seep areas. They prefer rich soils and are common in river bottomlands and protected coves.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+    <script>
+        // Initialize to show only wildflowers on page load
+        document.querySelectorAll('.plant-card').forEach(card => {
+            if (card.getAttribute('data-category') !== 'wildflowers') {
+                card.classList.remove('show');
+            }
+        });
+
+        document.querySelectorAll('.category-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const category = this.getAttribute('data-category');
+                
+                // Update active button
+                document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+                
+                // Filter plants
+                document.querySelectorAll('.plant-card').forEach(card => {
+                    if (card.getAttribute('data-category') === category) {
+                        card.classList.add('show');
+                    } else {
+                        card.classList.remove('show');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
